@@ -1,0 +1,27 @@
+    <!-- Navigation bar -->
+         <!-- Link to all the pages of the site -->
+         <!-- Top vs side, undecided  -->
+         <!-- Slim bar strip at the top of the page -->
+         <!-- Logo/title of the application 
+         
+    
+         {% load static %}
+            <a href="/Index.html/">Home</a> 
+             <a href="/DataDossier.html/">Data Dossier</a> 
+             <a href="/Networkhunt.html/">Network Hunt</a> 
+             <a href="/ResourceGateway.html/">Resource Gateway</a>
+             <a href="/Scibasis/.html/">Sciientific Basis</a>
+             <a href="/InventoryInsight.html/">Inventory Insight</a>
+             
+           -->
+           
+         
+           {% block nav %}
+                <a href="{% url 'Home' %}" >Home</a> 
+                <a href="{% url 'DataDossier_homepage' %}">Data Dossier</a> 
+                <a href="{% url 'NetworkHunt_homepage' %}">Network Hunt</a> 
+                <a href="{% url 'InventoryInsight_homepage' %}">Inventory Insight</a>
+
+                <a href="{% url 'ResourceGateway' %}">Resource Gateway</a>
+                <a href="{% url 'ScientificBasis' %}">Scientific Basis</a>
+                {% endblock %}          

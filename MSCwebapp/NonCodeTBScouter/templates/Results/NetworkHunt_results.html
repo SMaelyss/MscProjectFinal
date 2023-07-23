@@ -1,0 +1,29 @@
+{% extends 'Backbone/Base.html'%}
+{% load humanize %}
+{% block content%}
+{% if request_denomer == 'ni_request'%}
+
+<h3>Results using the name / id of element</h3>
+{% if element_id != 'e'%}
+<p>{{ni_data_nameid}}</p>
+<p>{{ni_data_type}}</p>
+<p>{{ni_data_text}}</p>
+<p>{{element_id}}</p>
+
+
+
+{% else%}
+
+<p>
+    This search has not returned any results. It is possible you have selected the wrong element type.</p>
+
+    <a href="{% url 'NetworkHunt_homepage' %}">Try again</a> 
+
+
+ {% endif%}
+{% else%}
+<h3>Results NOT using the name / id of element</h3>
+ 
+{% endif%}
+
+{% endblock%}

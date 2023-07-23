@@ -1,0 +1,198 @@
+{% extends 'Backbone/Base.html'%}
+{% load humanize %}
+{% block content%}
+
+<h4>Database view in table form</h4>
+
+
+
+
+{% if IIdata == 'r_modules' %}
+
+
+
+
+<h3>Modules</h3>
+<br><br>
+<div class="tableContainer">
+<table id="Modules_table" class="table">
+  <thead>
+    <th scope="col">Module colour hex code</th>
+    <th scope="col">Module colour</th>
+    <th scope="col">Enriched utr q value</th>
+    <th scope="col">Enriched srna q value</th>
+    <th scope="col">Mycobrowser category</th>
+  </thead>
+  <tbody>
+    {% for m_all in m_all %}
+    <tr>
+      <td> {{m_all.module_id}} </td>
+      <td> {{m_all.module_name}} </td>
+      <td> {{m_all.enrich_utr_qval}} </td>
+      <td> {{m_all.enrich_srna_qval}} </td>
+      <td> {{m_all.mycobrowser_category_enrichment}} </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<br>
+
+<h3>Module and culture conditions</h3>
+<br><br>
+<div class="tableContainer">
+<table id="Modules_correlation_table" class="table">
+  <thead>
+    <th scope="col">Module colour hex code </th>
+    <th scope="col">Module condition</th>
+    <th scope="col">Raw correlation score</th>
+    <th scope="col">Adjusted p value</th>
+  </thead>
+  <tbody>
+    {% for mc_all, mc_summed_condition_name, mc_module in mc_table_zip%}
+    <tr>
+      <td> {{mc_module}}</td>
+      <td> {{mc_summed_condition_name}}</td>
+      <td> {{mc_all.raw_cor}} </td>
+      <td> {{mc_all.p_adjusted_cor}} </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+
+
+
+
+
+
+
+
+{% elif IIdata == 'r_elements' %}
+
+<h3>genomic elements</h3>
+<br><br>
+<div class="tableContainer">
+<table id="Elements_table" class="table">
+  <thead>
+    <th scope="col">Transcript name</th>
+    <th scope="col">Transcript type</th>
+  </thead>
+  <tbody>
+    {%for e_id, e_type in e_table_zip %}
+    <tr>
+      <td> {{e_id}} </td>
+      <td> {{e_type}} </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<br>
+
+<h3>Element modules by modules</h3>
+<br><br>
+<div class="tableContainer">
+<table id="elements_related_tables" class="table">
+  <thead>
+    <th>Element name</th>
+    <th>Module colour hex code</th>
+    <th>Module match score</th>
+  </thead>
+  <tbody>
+    {%for r_all, r_element, r_module in r_table_zip %}
+    <tr>
+      <td> {{r_element}} </td>
+      <td> {{r_module}} </td>
+      <td> {{r_all.module_match_score}} </td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+</div>
+
+{% elif IIdata == 'r_samples' %}
+<h3>Samples</h3>
+<br><br>
+
+<div class="tableContainer">
+  <table id="Samples_table" class="table">
+  <thead>
+    <th scope="col">Sample name</th>
+    <th scope="col">Dataset name</th>
+    <th scope="col">Total reads</th>
+    <th scope="col">Mapped reads</th>
+    <th scope="col">Research method</th>
+    <th scope="col">Condition id number </th>
+  </thead>
+  <tbody>
+    {%for s_all, s_full_con in s_table_zip %}
+    <tr>
+      <td> {{s_all.sample_id}} </td>
+      <td> {{s_all.dataset_source}} </td>
+      <td> {{s_all.total_reads}} </td>
+      <td> {{s_all.mapped_reads}} </td>
+      <td> {{s_all.instrument}} </td>
+      <td> {{s_full_con}} </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<br>
+<h3>Summarised conditions</h3>
+<br><br>
+<div class="tableContainer">
+<table id="Samples_table_relation" class="table">
+  <thead>
+    <th scope="col">Condition descriptor </th>
+    <th scope="col">Condition id number </th>
+  </thead>
+  <tbody>
+    {%for gc_full_condition_name, gc_full_condition_id in gc_table_zip %}
+    <tr>
+      <td> {{gc_full_condition_name}} </td>
+      <td> {{gc_full_condition_id}} </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% else %}
+<h3>Gene Ontology (GO) terms </h3>
+<br><br>
+<div class="tableContainer">
+<table id="Goterm_table" class="table">
+  <thead>
+    <th scope="col">ID </th>
+    <th scope="col">Name</th>
+    <th scope="col">Type</th>
+    <th scope="col">Definition</th>
+  </thead>
+  <tbody>
+    {%for gt_all in gt_all %}
+    <tr>
+      <td> {{gt_all.go_term_id}} </td>
+      <td> {{gt_all.go_term_name}} </td>
+      <td> {{gt_all.go_term_type}} </td>
+      <td> {{gt_all.go_term_def}} </td>
+
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+
+{% endif %}
+
+
+
+
+{% endblock%}

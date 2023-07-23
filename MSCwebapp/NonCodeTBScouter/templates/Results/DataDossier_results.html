@@ -1,0 +1,156 @@
+{% extends 'Backbone/Base.html'%}
+{% load humanize %}
+{% block content%}
+
+
+
+
+{% if element_id != 'e'%}
+<p>{{ni_data_nameid}}</p>
+<p>{{ni_data_type}}</p>
+<p>{{ni_data_text}}</p>
+<p>{{element_id}}</p>
+
+
+<br>
+<h3>primary</h3>
+<table id="DD_primary" class="table">
+    <thead>
+        {%for k,v in primary_level_info.items%}  
+      <th scope="col">{{k}}</th>
+      {% endfor%}
+    </thead>
+    <tbody>
+      <tr>
+         {%for k,v in primary_level_info.items%}
+        <td>{{v}}</td>
+        {% endfor%}
+      </tr>
+    </tbody>
+  </table>
+
+
+  <p>seq length</p>
+  <p>{{sequence_length_return}}</p>
+  <br>
+
+
+<br>
+<h3>strong_cor</h3>
+<table id="Modules_table_strong" class="table">
+    <thead>
+        {%for i in strongest_cor_data|first %}
+
+        
+      <th scope="col">{{i}}</th>
+      {% endfor%}
+     
+    </thead>
+    <tbody>
+        {%for i in strongest_cor_data%}
+        
+      <tr>
+        {%for k,v in i.items%}
+        <td>{{v}}</td>
+        {% endfor%}
+      </tr>
+      
+      {% endfor%}
+    
+    </tbody>
+  </table>
+
+
+  <br>
+<h3>weak_cor</h3>
+<table id="Modules_table_weak" class="table">
+    <thead>
+        {%for i in weakest_cor_data|first %}
+
+        
+      <th scope="col">{{i}}</th>
+      {% endfor%}
+     
+    </thead>
+    <tbody>
+        {%for i in weakest_cor_data%}
+        
+      <tr>
+        {%for k,v in i.items%}
+        <td>{{v}}</td>
+        {% endfor%}
+      </tr>
+      
+      {% endfor%}
+    
+    </tbody>
+  </table>
+
+
+<br>
+<h3>module all</h3>
+<table id="DD_all" class="table">
+    <thead>
+        {%for k,v in module_data_data.items%}  
+      <th scope="col">{{k}}</th>
+      {% endfor%}
+    </thead>
+    <tbody>
+      <tr>
+         {%for k,v in module_data_data.items%}
+        <td>{{v}}</td>
+        {% endfor%}
+      </tr>
+    </tbody>
+  </table>
+
+
+<br>
+
+<h3>mm</h3>
+<p>{{mm_data}}</p>
+
+{% if gene_data != 'e'%}
+
+{%for i in gene_data%}
+{%for n in i%}
+
+<table id="DD_all" class="table">
+    <thead>
+        {%for k,v in n.items%}  
+      <th scope="col">{{k}}</th>
+      {% endfor%}
+    </thead>
+    <tbody>
+      <tr>
+         {%for k,v in n.items%}
+        <td>{{v}}</td>
+        {% endfor%}
+      </tr>
+    </tbody>
+  </table>
+
+
+{% endfor%}
+
+{% endfor%}
+
+{% else%}
+<p>No related gene element</p>
+{% endif%}
+
+
+
+
+
+
+{% else%}
+
+<p>
+    This search has not returned any results. It is possible you have selected the wrong element type.</p>
+
+    <a href="{% url 'DataDossier_homepage' %}">Try again</a> 
+
+
+ {% endif%}
+{% endblock%}

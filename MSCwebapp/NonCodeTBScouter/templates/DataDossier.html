@@ -1,0 +1,78 @@
+{% extends 'Backbone/Base.html'%}
+
+{% load humanize %}
+{% block content%}
+
+<h2>Written summary regarding any searched element</h1>
+    <!-- {{page}} is a orm of django template language, an alternative is jinja.-->
+ 
+    
+<form action="DataDossier_results" method="post" >
+    {% csrf_token %}
+    {{ni_form.ui_element}}
+
+
+    {{ni_form.ui_type}}
+  
+
+    <div id="srna_textbox" style="display: none">
+        {{ni_form.ui_text_srna}}
+    </div>
+
+    <div id="utr_textbox" style="display: none">
+        {{ni_form.ui_text_utr}}
+    </div>
+
+    <div id="cds_textbox" style="display: none">
+        {{ni_form.ui_text_cds}}
+    </div>
+
+    <div id="ancrna_textbox" style="display: none">
+        {{ni_form.ui_text_ancrna}}
+    </div>
+   
+    <input class="submit-control" type="submit" value="submit" name="dd_ni_submit">
+</form>   
+
+
+
+
+
+
+
+<datalist id='ni_list_srna'>
+        {% for i in suggestions_srna %} 
+            <option>{{i}}</option>  
+        {% endfor %}
+</datalist>
+
+
+<datalist id='ni_list_utr'>
+    {% for i in suggestions_utr %} 
+        <option>{{i}}</option>  
+    {% endfor %}
+</datalist>
+
+
+<datalist id='ni_list_cds'>
+    {% for i in suggestions_cds %} 
+        <option>{{i}}</option>  
+    {% endfor %}
+</datalist>
+
+
+<datalist id='ni_list_ancrna'>
+    {% for i in suggestions_annotatedncrna %} 
+        <option>{{i}}</option>  
+    {% endfor %}
+</datalist>
+
+
+
+
+
+
+
+
+{% endblock%}
+

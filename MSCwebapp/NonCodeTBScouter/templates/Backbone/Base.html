@@ -1,0 +1,47 @@
+{% load static %}
+<html lang="en">
+<head>
+        <!--  
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    
+    <py-config>
+        packages = ['pandas','matplotlib','plotly']
+    </py-config>
+
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="{% static 'js/code.jquery.com_jquery-3.7.0.min.js'%}"></script>
+    <script src="{% static 'js/autocomplete.js'%}"></script>
+
+</head>
+<body>
+
+    <!-- Nav bar -->
+    <div id="navorsidebar">
+        {% include "Backbone/Navbar.html"%}
+    </div> 
+    <!-- End of nav bar -->
+    
+    <!-- Base content -->
+    <h1> NonCode TB Scouter</h1>
+    <h5> An app permitting the exploration and visualisation of the non-coding TB genome</h5>
+
+     <!-- End of base content -->
+
+
+
+
+
+    <div id="content">
+        {% block content %} {% endblock %}
+    </div>
+    <p>footer</p>
+
+</body>
+</html>
