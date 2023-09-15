@@ -158,7 +158,8 @@ def DataDossier_results(request):
           def gene_info(element_id):
             if ni_data_type != ('Cds' or 'Annotated_ncrna'):
               if ni_data_type == 'Srna':
-                gene_id =   Srna.objects.filter(srna_element_id=element_id).values_list('gene_element_id', flat=True)               
+                gene_id =   [i for i in Srna.objects.filter(srna_element_id=element_id).values_list('gene_element_id', flat=True)]
+                              
                 if gene_id[0] != None:
                   cds_data = Cds.objects.filter(cds_element_id=gene_id).values()
                   gene_data_zip = zip(cds_data)

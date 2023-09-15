@@ -6,14 +6,13 @@
 
 
 {% if element_id != 'e'%}
-<p>{{ni_data_nameid}}</p>
-<p>{{ni_data_type}}</p>
-<p>{{ni_data_text}}</p>
-<p>{{element_id}}</p>
+
+<p>Element id: {{element_id}}</p>
 
 
-<br>
-<h3>primary</h3>
+
+<h3>Genomic components of this element:</h3>
+<div class="tableContainer">
 <table id="DD_primary" class="table">
     <thead>
         {%for k,v in primary_level_info.items%}  
@@ -28,15 +27,18 @@
       </tr>
     </tbody>
   </table>
+</div>
+{% if sequence_length_return != ''%}
+  <h3>Sequence length:{{sequence_length_return}} </h3>
+  {% else%}
+  <h3></h3>
+  {% endif%}
 
-
-  <p>seq length</p>
-  <p>{{sequence_length_return}}</p>
   <br>
 
 
-<br>
-<h3>strong_cor</h3>
+<h3>Enviromental conditions that are  negatively correlated with this element:</h3>
+<div class="tableContainer">
 <table id="Modules_table_strong" class="table">
     <thead>
         {%for i in strongest_cor_data|first %}
@@ -59,10 +61,11 @@
     
     </tbody>
   </table>
+</div>
 
-
-  <br>
-<h3>weak_cor</h3>
+ 
+<h3>Enviromental conditions that are positively correlated with this element:</h3>
+<div class="tableContainer">
 <table id="Modules_table_weak" class="table">
     <thead>
         {%for i in weakest_cor_data|first %}
@@ -85,10 +88,11 @@
     
     </tbody>
   </table>
+</div>
 
 
-<br>
-<h3>module all</h3>
+<h3>This element has been grouped into the following module:</h3>
+<div class="tableContainer">
 <table id="DD_all" class="table">
     <thead>
         {%for k,v in module_data_data.items%}  
@@ -103,18 +107,16 @@
       </tr>
     </tbody>
   </table>
+</div>
 
 
-<br>
-
-<h3>mm</h3>
-<p>{{mm_data}}</p>
+<h3>module match score: {{mm_data}}</h3>
 
 {% if gene_data != 'e'%}
 
 {%for i in gene_data%}
 {%for n in i%}
-
+<div class="tableContainer">
 <table id="DD_all" class="table">
     <thead>
         {%for k,v in n.items%}  
@@ -129,7 +131,7 @@
       </tr>
     </tbody>
   </table>
-
+</div>
 
 {% endfor%}
 

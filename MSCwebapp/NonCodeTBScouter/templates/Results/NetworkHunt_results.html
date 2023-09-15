@@ -1,15 +1,75 @@
 {% extends 'Backbone/Base.html'%}
-{% load humanize %}
+
 {% block content%}
+
 {% if request_denomer == 'ni_request'%}
 
-<h3>Results using the name / id of element</h3>
-{% if element_id != 'e'%}
-<p>{{ni_data_nameid}}</p>
-<p>{{ni_data_type}}</p>
-<p>{{ni_data_text}}</p>
-<p>{{element_id}}</p>
 
+{% if element_id != 'e'%}
+
+<p> Genomic element: {{ni_data_type}}, {{ni_data_text}}</p>
+<p></p>
+
+
+
+<h4> Genome element network</h4>
+<div class="tableContainer">
+  <table id="element network" class="table">
+    <thead>
+      <th scope="col">transcript type </th>
+      <th scope="col">id</th>
+      <th scope="col">module match score</th>
+    </thead>
+    <tbody>
+      {% for network_element_types, network_element_ids, network_mm in ned%}
+      <tr>
+        <td> {{network_element_ids}}</td>
+        <td> {{network_element_types}}</td>
+        <td> {{network_mm}} </td>
+      </tr>
+      {% endfor %}
+  
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+<h4> Condition network</h4>
+
+<div class="tableContainer">
+<table id="module network" class="table">
+  <thead>
+    <th scope="col">condition </th>
+    <th scope="col">raw correlation score</th>
+    <th scope="col">adjusted p value</th>
+  </thead>
+  <tbody>
+    {% for network_summed_condition_name, network_raw_cor, network_p_adj in conditions_table%}
+    <tr>
+      <td> {{network_summed_condition_name}}</td>
+      <td> {{network_raw_cor}}</td>
+      <td> {{network_p_adj}} </td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+</div>
+{% autoescape off %}
+ <div id="graph" style="width:500;height:500">
+  {{ plot_cond_div|safe }}
+  </div>
+  {% endautoescape %}
+
+<p>Colour key:</p>
+
+<button style="background-color: #7BE141">UTR </button>
+<button style="background-color: #8de8e8 ">CDS</button>
+<button style="background-color: #c6637b"> sRNA</button>
+<button style="background-color: #f9e099">Annotated ncRNA </button>
 
 
 {% else%}
@@ -21,9 +81,58 @@
 
 
  {% endif%}
+
 {% else%}
 <h3>Results NOT using the name / id of element</h3>
  
 {% endif%}
 
+
+  
+
+
+
+<div id="mynetwork">
+
+<script type="text/javascript">
+  '{% for all_nodes, all_attributes in nodes_zip %}'
+  console.log('{{all_nodes}}');
+  '{% endfor %}'
+
+  let nodes = new vis.DataSet([
+    {% for all_nodes, all_attributes in nodes_zip %}
+  { id: '{{all_nodes}}', label: '{{all_nodes|safe}}', color: '{{all_attributes}}' },
+  {% endfor %}
+  ]);
+
+
+  console.log(nodes);
+
+  let edges = new vis.DataSet([
+
+    {% for source_nodes, target_nodes in ez %}
+  { from: '{{source_nodes}}', to: '{{target_nodes}}' },
+  {% endfor %}
+  ]);
+
+  let data = {
+    nodes: nodes,
+    edges: edges
+  };
+  let options = {
+    autoResize: true,
+    height: '100%',
+    width: '100%',
+    clickToUse: false,
+  };
+  let container = document.getElementById("mynetwork");
+
+  let network = new vis.Network(container, data, options);
+</script>
+
+
+</div>
+
 {% endblock%}
+
+ 

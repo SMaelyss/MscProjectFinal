@@ -1,0 +1,53 @@
+# command prompt as non-admin
+
+#verify python version
+python --version
+
+
+*verify pip
+pip --version
+
+#otherwise install pip
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py
+
+
+# install django
+pip install django
+
+
+#establish virtual env
+pip install virtualenvwrapper-win
+python -m virtualenv .
+
+
+#activate virtual env
+
+cd NonCodeTBScouter
+
+.\scripts\activate
+
+
+
+#run app
+python manage.py runserver
+
+----------------------------
+run without django installation
+update NonCodeTBScouter/NonCodeTBScouter/settings.py with database connection info
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mscproject_local', # database name
+        'USER': 'root',
+        'PASSWORD': 'Smn1g17',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        }
+    }
+
+#In CMD
+cd NonCodeTBScouter
+
+#run app
+python manage.py runserver

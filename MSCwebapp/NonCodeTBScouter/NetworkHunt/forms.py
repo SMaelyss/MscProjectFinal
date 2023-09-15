@@ -23,6 +23,21 @@ element_type_choices_nonloc = [
   ('Annotated_ncrna','Annotated ncRNA'),
 ]
 
+mm_choices = [
+  (0.9, '0.9'),
+  (0.8, '0.8'),
+  (0.7, '0.7'),
+  (0.6, '0.6'),
+  (0.5, '0.5'),
+  (0.4, '0.4'),
+]
+
+raw_cor_choices = [
+  (1, 'All associated'),
+  (0.5, 'Strongly correlated'),
+  (0, 'Weakly correlated'),
+]
+
 class NH_nameid_form(forms.Form):
 
   ui_element = forms.ChoiceField(choices= id_name_choices, label='Element id or name', widget=forms.RadioSelect)
@@ -37,3 +52,6 @@ class NH_nameid_form(forms.Form):
   
   ui_text_ancrna= forms.CharField(label='Text to search', max_length=50, required=False, widget=forms.TextInput(attrs={'list':'ni_list_ancrna', }))
 
+  ui_mm = forms.ChoiceField(choices= mm_choices, label='Module match score')
+
+  ui_raw_cor = forms.ChoiceField(choices= raw_cor_choices, label='Correlation strength') 

@@ -3,17 +3,14 @@
 {% load humanize %}
 {% block content%}
 
-<h2>Written summary regarding any searched element</h1>
+<h3>Written summary regarding any searched element</h3>
     <!-- {{page}} is a orm of django template language, an alternative is jinja.-->
  
-    
+    <div class="">
 <form action="DataDossier_results" method="post" >
     {% csrf_token %}
     {{ni_form.ui_element}}
-
-
     {{ni_form.ui_type}}
-  
 
     <div id="srna_textbox" style="display: none">
         {{ni_form.ui_text_srna}}
@@ -33,12 +30,9 @@
    
     <input class="submit-control" type="submit" value="submit" name="dd_ni_submit">
 </form>   
+</div>
 
-
-
-
-
-
+  
 
 <datalist id='ni_list_srna'>
         {% for i in suggestions_srna %} 
@@ -70,7 +64,11 @@
 
 
 
+<div class="dd_image">
+   <h2>Case example:</h2> 
+   <img src="\static\images\dd_ex.png" alt="">
 
+</div>
 
 
 

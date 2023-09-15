@@ -5,16 +5,21 @@
 <!-- From block content will be placed into the base.html -->
 
 
-<h3> Network Hunt</h3>
+<h3> Obtain a relational network of the gene components within the same module filtered according to the parameters chosen below. </h3>
 
+<p> The module match score refers to how strongly the transcript are related to other transcripts in their hub.</p>
 
 
 <form action="NetworkHunt_results" method="post"  name="DD_ni_form_name">
     {% csrf_token %}
+    MM: {{ni_form.ui_mm}}
+
     {{ni_form.ui_element}}
 
 
     {{ni_form.ui_type}}
+
+    {{ni_form.ui_raw_cor}}
   
 
     <div id="srna_textbox" style="display: none">
@@ -34,6 +39,9 @@
     </div>
    
     <input class="submit-control" type="submit" value="submit" name="dd_ni_submit">
+
+
+
 </form>   
 
 
@@ -70,6 +78,10 @@
 </datalist>
 
 
-
+<div class="nh_image">
+    <h2>Case example:</h2> 
+    <img src="\static\images\nh_ex.png" alt="">
+ 
+ </div>
 
 {% endblock%}

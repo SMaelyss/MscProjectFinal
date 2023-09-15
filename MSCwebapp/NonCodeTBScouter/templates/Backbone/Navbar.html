@@ -17,6 +17,9 @@
            
          
            {% block nav %}
+           <nav class="navbar">
+            <div class="nav_links">
+               <div class="nav_links">
                 <a href="{% url 'Home' %}" >Home</a> 
                 <a href="{% url 'DataDossier_homepage' %}">Data Dossier</a> 
                 <a href="{% url 'NetworkHunt_homepage' %}">Network Hunt</a> 
@@ -24,4 +27,11 @@
 
                 <a href="{% url 'ResourceGateway' %}">Resource Gateway</a>
                 <a href="{% url 'ScientificBasis' %}">Scientific Basis</a>
+                
+               </div>
+               <div class="logo">
+               <h1> NonCode TB Scouter</h1></div>
+              </div>
+              
+          </nav>
                 {% endblock %}          
