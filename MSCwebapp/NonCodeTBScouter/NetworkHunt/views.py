@@ -334,6 +334,12 @@ def NetworkHunt_results(request):
 
             p_df = pd.DataFrame(list(zip(p_summed_condition_name, p_raw_cor,p_p_adj)), 
                     columns=['summed_condition_name','raw_correlation_score', 'adjusted_p_value'])
+
+            #@online{plotly, author = {Plotly Technologies Inc.},title = {Collaborative data science},publisher = {Plotly Technologies Inc.},address = {Montreal, QC},year = {2015},url = {https://plot.ly}
+}
+
+          
+}
             
 
 
