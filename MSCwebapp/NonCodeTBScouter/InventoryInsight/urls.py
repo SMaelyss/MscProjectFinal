@@ -1,4 +1,7 @@
 """
+File: InventoryInsight/urls.py
+
+Date: 30.05.2023
 Description: ii app, url file
 urls for the navigation functions
 

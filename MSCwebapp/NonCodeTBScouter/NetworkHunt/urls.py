@@ -1,4 +1,7 @@
 """
+File: NetworkHunt/urls.py
+
+Date: 30.05.2023
 Description: nh app, url file
 urls for the navigation functions
 
@@ -11,7 +14,7 @@ from unicodedata import name
 
 
 from Home.views import homepage
-from InventoryInsight.forms import IIForm
+
 
 
 urlpatterns = [

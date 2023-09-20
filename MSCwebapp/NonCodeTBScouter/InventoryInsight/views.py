@@ -1,3 +1,18 @@
+"""
+File: InventoryInsight/views.py
+
+Date: 020.09.2023
+Function: Display onto front end, form to obtain table view of the database layer of the website.
+Author: Sarah Maelyss N'djomon
+------------------------------------------------------------------------------------------------------------------------
+Description
+===========
+functions:
+  InventoryInsight_homepage renders the request form.
+  InventoryInsight_results takes the request from the form and retrieves the requested data from the database and passes it to the InventoryInsight_results.html.
+------------------------------------------------------------------------------------------------------------------------
+"""
+
 from django.shortcuts import render
 from multiprocessing import context
 

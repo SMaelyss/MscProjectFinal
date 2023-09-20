@@ -1,3 +1,15 @@
+"""
+File: DataDossier/forms.py
+
+Date: 020.09.2023
+Function: create the form displayed on the template front end
+Author: Sarah Maelyss N'djomon
+------------------------------------------------------------------------------------------------------------------------
+Description
+===========
+Make use of django functionalities to automate creation of html request form
+------------------------------------------------------------------------------------------------------------------------
+"""
 from django import forms 
 
 II_choices = [

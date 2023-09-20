@@ -1,3 +1,18 @@
+"""
+File: DataDossier/views.py
+
+Date: 020.09.2023
+Function: Display onto front end, form to obtain data about an individual gene element, resukts obtained by the form.
+Author: Sarah Maelyss N'djomon
+------------------------------------------------------------------------------------------------------------------------
+Description
+===========
+functions:
+  DataDossier_homepage renders the request form.
+  DataDossier_results takes the request from the form and retrieves the requested data from the database and passes it to the DataDossier_results.html.
+------------------------------------------------------------------------------------------------------------------------
+"""
+
 from django.shortcuts import render
 from multiprocessing import context
 from django.db import connection
@@ -9,10 +24,11 @@ from .forms import DD_nameid_form
 from .models import Modules, ModuleCorrelation, Elements, Relations, Samples, GrowthConditions, GoTerms, Srna, Utr, AnnotatedNcrna, Cds
 
 
-# Create your views here.
+
 def DataDossier_homepage(request):
   
-
+  # Configure the data required or the autocomplete feature on the form
+  # Obtain element ids and names, categoried by element type
   srna_ids = list(Srna.objects.values_list('srna_element_id', flat=True))
   srna_names = list(Srna.objects.values_list('srna_name', flat=True))
   suggestions_srna = srna_ids + srna_names
@@ -33,7 +49,7 @@ def DataDossier_homepage(request):
   #print(ni_form)
 
   ni_form= DD_nameid_form()
-
+  # pass the form and autocomplete data lists through to template html
   context = {
     'ni_form' : ni_form,
     #'suggestions_zip': suggestions_zip,
@@ -50,8 +66,9 @@ def DataDossier_homepage(request):
 
 
 def DataDossier_results(request):
+   # obtain user input from form
   ni_form = DD_nameid_form(request.POST)
-  
+  # verify POST
   if request.method == 'POST' :
     print('Method is POST')
     ni_form = DD_nameid_form(request.POST)
@@ -60,16 +77,20 @@ def DataDossier_results(request):
 
      #if 'dd_ni_form_submit' in request.POST:
       #print('query with element name or id')
+    # verify VALID
+
     if ni_form.is_valid() :
         print('form is valid')
 
+         # obtain form objects
         ni_data_nameid = str(ni_form.cleaned_data['ui_element'])
         ni_data_type = str(ni_form.cleaned_data['ui_type'])
         ni_data_text_raw = [ni_form.cleaned_data['ui_text_srna']] + [ni_form.cleaned_data['ui_text_utr']] + [ni_form.cleaned_data['ui_text_cds']] + [ni_form.cleaned_data['ui_text_ancrna']]
      
         ni_data_text = ''.join(list(filter(None, ni_data_text_raw)))
-       
+       # get the element id using the form objects 
         def return_element_id(ni_data_type, ni_data_text, ni_data_nameid):
+          # Identify if the element name or id was passed through the form, obtain element id accordingly
           if ni_data_nameid == 'id':
             if ni_data_type == 'Srna':
               element_id = Srna.objects.filter(srna_element_id=ni_data_text).values_list('srna_element_id', flat=True)
@@ -90,7 +111,7 @@ def DataDossier_results(request):
               element_id = list(Cds.objects.filter(cds_name=ni_data_text).values_list('cds_element_id', flat=True))
             elif ni_data_type == 'Annotated_ncrna':
               element_id = list(AnnotatedNcrna.objects.filter(annotated_ncrna_name=ni_data_text).values_list('annotated_ncrna_element_id', flat=True))
-
+          # error management, if no element id is obtained, make it equal to 'e' for error
           if not element_id:
             element_id = list('e')
           #print(element_id)
@@ -98,10 +119,11 @@ def DataDossier_results(request):
           return element_id
          
         element_id = list(return_element_id(ni_data_type, ni_data_text, ni_data_nameid))[0]
-
+        # if an element id is successfully obtained, continue with the following functions that require an element id to work
         if element_id != 'e':
           def return_from_principle_table(element_id,ni_data_type):
-
+                # carries out select * from 'element_types table' where element_id = 'element_id'
+                # to obtain the main data directly related to this element.
             if ni_data_type == 'Srna':
               principle_rows = Srna.objects.filter(srna_element_id=element_id).values()
             elif ni_data_type == 'Utr':
@@ -116,6 +138,7 @@ def DataDossier_results(request):
           primary_level_info = return_from_principle_table(element_id,ni_data_type)[0]
           
           def sequence_length(element_id, ni_data_type):
+            # calculate the sequence length for srna and utr elements
 
             if ni_data_type != 'Cds':
               if ni_data_type != 'Annotated_ncrna':
@@ -138,7 +161,7 @@ def DataDossier_results(request):
             return sequence_length_calc
           
           sequence_length_return = sequence_length(element_id, ni_data_type)
-
+          # obtain data about the element's module
           def return_module_related_data(element_id):
             module_id = Relations.objects.filter(element_id=element_id).values_list('module_id',flat=True)[0]
             mm = Relations.objects.filter(element_id=element_id).values_list('module_match_score',flat=True)[0]
@@ -154,7 +177,7 @@ def DataDossier_results(request):
           mm_data = return_module_related_data(element_id)[2]
           module_data_data = return_module_related_data(element_id)[3]
 
-
+          # obtain related orf for utr and srna elements
           def gene_info(element_id):
             if ni_data_type != ('Cds' or 'Annotated_ncrna'):
               if ni_data_type == 'Srna':
@@ -192,7 +215,7 @@ def DataDossier_results(request):
 
           print(gene_data)
 
-          
+          # variables to pass threough to template html
           context = {
             'ni_data_nameid': ni_data_nameid,
             'ni_data_type': ni_data_type,
@@ -213,7 +236,7 @@ def DataDossier_results(request):
             } 
         
 
-
+      # error management, if element_id = 'e'
         else:
          
           context = {

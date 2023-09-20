@@ -1,3 +1,20 @@
+"""
+File: NetworkHunt/views.py
+
+Date: 020.09.2023
+Function: Display onto front end, form to obtain table view of the database layer of the website.
+Author: Sarah Maelyss N'djomon
+------------------------------------------------------------------------------------------------------------------------
+Description
+===========
+functions:
+  NetworkHunt_homepage renders the request form.
+  NetworkHunt_results takes the request from the form and retrieves the requested data from the database and passes it to the NetworkHunt_results.html.
+------------------------------------------------------------------------------------------------------------------------
+"""
+
+
+
 from django.shortcuts import render
 from multiprocessing import context
 from django.db import connection
@@ -13,9 +30,10 @@ import plotly.express as px
 import plotly as pt
 import pandas as pd
 
-# Create your views here.
+
 def NetworkHunt_homepage(request):
-  
+  # Configure the data required or the autocomplete feature on the form
+  # Obtain element ids and names, categoried by element type
   srna_ids = list(Srna.objects.values_list('srna_element_id', flat=True))
   srna_names = list(Srna.objects.values_list('srna_name', flat=True))
   suggestions_srna = srna_ids + srna_names
@@ -36,7 +54,7 @@ def NetworkHunt_homepage(request):
   #print(ni_form)
 
   ni_form= NH_nameid_form()
-
+   # pass the form and autocomplete data lists through to template html
   context = {
     'ni_form' : ni_form,
     #'suggestions_zip': suggestions_zip,
@@ -111,7 +129,7 @@ def NetworkHunt_results(request):
 
 # Check for element None type
           if element_id != 'e':
-
+            # create a vis.js node and edge network of the searched element 
             def visual_network_graph(element_id, ni_data_type, ni_mm):
               module_id = Relations.objects.filter(element_id=element_id).values_list('module_id',flat=True)[0]
               network_element_ids =  Relations.objects.filter(Q(module_id=module_id) & Q(module_match_score__gt=ni_mm)).values_list('element_id',flat=True)
@@ -164,10 +182,7 @@ def NetworkHunt_results(request):
                 target_attribute.append('Srna')
             
               types = ''
-            
-          
-          
-          
+
               sn2 = list(network_element_ids)
               for id in sn2:
                 types = Relations.objects.filter(element_id=id).values_list('element_type',flat=True)[0]
@@ -312,7 +327,7 @@ def NetworkHunt_results(request):
                 return condition_zip
             
             conditions_table = return_module_network(element_id, ni_raw_cor)
-
+            # plot a graph detailing the module match score according to the tets condition
             def pd_cor_graphs(element_id):
               module_id = Relations.objects.filter(element_id=element_id).values_list('module_id',flat=True)[0]
               
@@ -336,19 +351,9 @@ def NetworkHunt_results(request):
                     columns=['summed_condition_name','raw_correlation_score', 'adjusted_p_value'])
 
             #@online{plotly, author = {Plotly Technologies Inc.},title = {Collaborative data science},publisher = {Plotly Technologies Inc.},address = {Montreal, QC},year = {2015},url = {https://plot.ly}
-}
-
-          
-}
-            
-
 
             
-
-
-
-
-        
+  
 
             conditions_plot = px.scatter(p_df, x='summed_condition_name', y='raw_correlation_score', color='adjusted_p_value',
                               title="Raw correlation score for each summed condition")

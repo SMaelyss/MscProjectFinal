@@ -1,5 +1,8 @@
 """
-Description: nh app, url file
+File: ScientificBasis/urls.py
+
+Date: 16.07.2023
+Description: sb app, url file
 urls for the navigation functions
 
 """
